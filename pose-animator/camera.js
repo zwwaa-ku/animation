@@ -70,7 +70,8 @@ const avatarSvgs = {
  *
  */
 async function setupCamera() {
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { 
+//navigator.mediaDevices.getUserMedia メディア入力を使用する許可＝＞Promise<MediaStream>　拒否＝＞reject
     throw new Error(
         'Browser API navigator.mediaDevices.getUserMedia not available');
   }
@@ -78,6 +79,7 @@ async function setupCamera() {
   const video = document.getElementById('video');
   video.width = videoWidth;
   video.height = videoHeight;
+//document.getElementById(id) htmlタグで指定したIDにマッチするドキュメントを取得するメソッド
 
   const stream = await navigator.mediaDevices.getUserMedia({
     'audio': false,
@@ -87,7 +89,9 @@ async function setupCamera() {
       height: videoHeight,
     },
   });
+//width,heightは解像度,facingModeでフロントカメラを利用することを示す
   video.srcObject = stream;
+//取得できたstreamはvideo要素のsrcObjectに代入することで、そのまま再生することができる
 
   return new Promise((resolve) => {
     video.onloadedmetadata = () => {
@@ -99,7 +103,7 @@ async function setupCamera() {
 async function loadVideo() {
   const video = await setupCamera();
   video.play();
-
+//play()メソッドを実行して再生
   return video;
 }
 
